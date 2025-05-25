@@ -121,6 +121,7 @@ impl State for RastriginState {
     }
 }
 
+#[derive(Clone)]
 struct RastriginEnergy;
 
 impl Energy for RastriginEnergy {
@@ -239,7 +240,9 @@ impl Energy for KnapsackEnergy {
 fn bench_tsp(c: &mut Criterion) {
     let mut group = c.benchmark_group("TSP");
     
-    for size in [10, 20, 50] {
+    // Define sizes as concrete values
+    let sizes = [10, 20, 50];
+    for size in &sizes {
         group.bench_with_input(BenchmarkId::from_parameter(size), size, |b, &size| {
             b.iter_batched(
                 || {
@@ -303,57 +306,89 @@ fn bench_rastrigin(c: &mut Criterion) {
     
     // Compare different cooling schedules
     for schedule_type in ["geometric", "logarithmic", "adaptive"].iter() {
-        group.bench_with_input(BenchmarkId::from_parameter(*schedule_type), schedule_type, |b, schedule_type| {
-            b.iter_batched(
-                || {
-                    // Setup
-                    let mut rng = seeded_rng(1337);
-                    let range = (-5.12, 5.12);
-                    let initial_state = RastriginState::new(5, range, &mut rng);
-                    let energy = RastriginEnergy;
-                    
-                    // Use a type-erased approach with runtime branching instead of static dispatch
-                    // This avoids type compatibility issues with match arms
-                    let max_iters = 1000;
-                    let rng = seeded_rng(1337);
-                    
-                    if *schedule_type == "geometric" {
-                        let schedule = GeometricSchedule::new(10.0, 0.95);
-                        Annealer::new(
-                            initial_state,
-                            energy,
-                            schedule,
-                            rng,
-                            max_iters,
-                        )
-                    } else if *schedule_type == "logarithmic" {
-                        let schedule = LogarithmicSchedule::new(10.0);
-                        Annealer::new(
-                            initial_state,
-                            energy,
-                            schedule,
-                            rng,
-                            max_iters,
-                        )
-                    } else if *schedule_type == "adaptive" {
-                        let schedule = AdaptiveSchedule::new(10.0);
-                        Annealer::new(
-                            initial_state,
-                            energy,
-                            schedule,
-                            rng,
-                            max_iters,
-                        )
-                    } else {
-                        unreachable!()
-                    }
+        group.bench_with_input(BenchmarkId::from_parameter(schedule_type), schedule_type, |b, schedule_type| {
+            // Use different benchmark functions for each schedule type to avoid type issues
+            match *schedule_type {
+                "geometric" => {
+                    b.iter_batched(
+                        || {
+                            // Setup
+                            let mut rng = seeded_rng(1337);
+                            let range = (-5.12, 5.12);
+                            let initial_state = RastriginState::new(5, range, &mut rng);
+                            let energy = RastriginEnergy;
+                            let max_iters = 1000;
+                            
+                            let schedule = GeometricSchedule::new(10.0, 0.95);
+                            Annealer::new(
+                                initial_state,
+                                energy,
+                                schedule,
+                                seeded_rng(1337),
+                                max_iters,
+                            )
+                        },
+                        |mut annealer| {
+                            // Benchmark
+                            black_box(annealer.run())
+                        },
+                        criterion::BatchSize::SmallInput,
+                    );
                 },
-                |mut annealer| {
-                    // Benchmark
-                    black_box(annealer.run())
+                "logarithmic" => {
+                    b.iter_batched(
+                        || {
+                            // Setup
+                            let mut rng = seeded_rng(1337);
+                            let range = (-5.12, 5.12);
+                            let initial_state = RastriginState::new(5, range, &mut rng);
+                            let energy = RastriginEnergy;
+                            let max_iters = 1000;
+                            
+                            let schedule = LogarithmicSchedule::new(10.0);
+                            Annealer::new(
+                                initial_state,
+                                energy,
+                                schedule,
+                                seeded_rng(1337),
+                                max_iters,
+                            )
+                        },
+                        |mut annealer| {
+                            // Benchmark
+                            black_box(annealer.run())
+                        },
+                        criterion::BatchSize::SmallInput,
+                    );
                 },
-                criterion::BatchSize::SmallInput,
-            );
+                _ => {
+                    // Must be "adaptive"
+                    b.iter_batched(
+                        || {
+                            // Setup
+                            let mut rng = seeded_rng(1337);
+                            let range = (-5.12, 5.12);
+                            let initial_state = RastriginState::new(5, range, &mut rng);
+                            let energy = RastriginEnergy;
+                            let max_iters = 1000;
+                            
+                            let schedule = AdaptiveSchedule::new(10.0);
+                            Annealer::new(
+                                initial_state,
+                                energy,
+                                schedule,
+                                seeded_rng(1337),
+                                max_iters,
+                            )
+                        },
+                        |mut annealer| {
+                            // Benchmark
+                            black_box(annealer.run())
+                        },
+                        criterion::BatchSize::SmallInput,
+                    );
+                }
+            }
         });
     }
     
@@ -363,19 +398,23 @@ fn bench_rastrigin(c: &mut Criterion) {
 fn bench_knapsack(c: &mut Criterion) {
     let mut group = c.benchmark_group("Knapsack");
     
-    for size in [20, 50, 100].iter() {
+    // Define sizes as concrete values rather than references
+    let sizes = [20, 50, 100];
+    for size in &sizes {
         group.bench_with_input(BenchmarkId::from_parameter(size), size, |b, &size| {
             b.iter_batched(
                 || {
                     // Setup
                     let mut rng = seeded_rng(777);
-                    let capacity = 3.0 * size as f64;
-                    let problem = KnapsackProblem::random(size, capacity, &mut rng);
+                    // Use the value directly
+                    let size_val = size as usize;
+                    let capacity = 3.0 * size_val as f64;
+                    let problem = KnapsackProblem::random(size_val, capacity, &mut rng);
                     let energy = KnapsackEnergy { 
                         problem: problem.clone(),
                         penalty_factor: 100.0,
                     };
-                    let initial_state = KnapsackState::random(size, &mut rng);
+                    let initial_state = KnapsackState::random(size_val, &mut rng);
                     let schedule = GeometricSchedule::new(100.0, 0.95);
                     
                     Annealer::new(

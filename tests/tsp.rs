@@ -15,6 +15,7 @@ const SEED: u64 = 42;
 #[derive(Clone)]
 struct TspProblem {
     cities: Vec<(f64, f64)>,
+    #[allow(dead_code)]
     optimal_tour: Option<Vec<usize>>,
     optimal_distance: Option<f64>,
 }

@@ -133,7 +133,7 @@ fn test_rastrigin_2d() {
             20000,
         );
         
-        let (intermediate_state, intermediate_energy) = annealer1.run();
+        let (intermediate_state, _intermediate_energy) = annealer1.run();
         
         // Stage 2: Exploitation with very low temperature
         let schedule2 = GeometricSchedule::new(0.1, 0.999); // Very slow cooling rate

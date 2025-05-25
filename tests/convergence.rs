@@ -115,6 +115,7 @@ impl EnergyTracker {
 }
 
 /// A custom schedule for tracking energy at each temperature change.
+#[allow(dead_code)]
 struct TrackingSchedule<Sch: Schedule> {
     inner: Sch,
     tracker: EnergyTracker,
@@ -128,6 +129,7 @@ impl EnergyTracker {
 }
 
 impl<Sch: Schedule> TrackingSchedule<Sch> {
+    #[allow(dead_code)]
     fn new(schedule: Sch) -> Self {
         Self {
             inner: schedule,
@@ -136,11 +138,13 @@ impl<Sch: Schedule> TrackingSchedule<Sch> {
         }
     }
     
+    #[allow(dead_code)]
     fn update_energy(&mut self, energy: f64) {
         self.current_energy = energy;
         self.tracker.add(energy);
     }
     
+    #[allow(dead_code)]
     fn tracker(&self) -> &EnergyTracker {
         &self.tracker
     }
