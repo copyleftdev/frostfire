@@ -1,0 +1,11 @@
+/home/sigma/Projects/frostfire/target/debug/deps/librusty_fork-8c8da5d4e5d85cb8.rmeta: /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/lib.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/sugar.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/fork_test.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/error.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/cmdline.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/fork.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/child_wrapper.rs
+
+/home/sigma/Projects/frostfire/target/debug/deps/rusty_fork-8c8da5d4e5d85cb8.d: /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/lib.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/sugar.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/fork_test.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/error.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/cmdline.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/fork.rs /home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/child_wrapper.rs
+
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/lib.rs:
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/sugar.rs:
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/fork_test.rs:
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/error.rs:
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/cmdline.rs:
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/fork.rs:
+/home/sigma/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rusty-fork-0.3.0/src/child_wrapper.rs:
