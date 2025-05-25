@@ -45,11 +45,21 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
 
+  # Debug job to see the context values
+  debug:
+    name: Debug Context
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
   benchmark:
     name: Benchmarks
     runs-on: ubuntu-latest
     # Only run benchmarks on master branch pushes, not on PRs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -65,11 +75,15 @@ jobs:
 
   publish:
     name: Publish to crates.io
-    needs: [test, clippy, fmt, benchmark]
+    needs: [test, clippy, fmt]
     runs-on: ubuntu-latest
     # Only publish on tag pushes
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
+      - name: Debug ref
+        run: |
+          echo "Current ref: ${{ github.ref }}"
+          echo "Is tag: ${{ startsWith(github.ref, 'refs/tags/v') }}"
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
