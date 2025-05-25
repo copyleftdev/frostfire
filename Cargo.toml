@@ -1,10 +1,11 @@
 [package]
 name = "frostfire"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Frostfire Team"]
 description = "A modular, mathematically rigorous, performant, reusable simulated annealing optimization engine"
-repository = "https://github.com/frostfire/frostfire"
+repository = "https://github.com/copyleftdev/frostfire"
+readme = "README.md"
 license = "MIT OR Apache-2.0"
 keywords = ["optimization", "simulated-annealing", "metaheuristic", "stochastic"]
 categories = ["algorithms", "science", "mathematics"]
