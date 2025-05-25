@@ -10,7 +10,7 @@
 //! - `schedule`: Cooling schedules that control the annealing process
 
 pub mod annealer;
-pub mod state;
 pub mod energy;
-pub mod transition;
 pub mod schedule;
+pub mod state;
+pub mod transition;

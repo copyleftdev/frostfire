@@ -248,7 +248,10 @@ impl AdaptiveSchedule {
             target_acceptance_ratio > 0.0 && target_acceptance_ratio < 1.0,
             "Target acceptance ratio must be between 0 and 1"
         );
-        assert!(min_alpha > 0.0 && min_alpha < 1.0, "Min alpha must be between 0 and 1");
+        assert!(
+            min_alpha > 0.0 && min_alpha < 1.0,
+            "Min alpha must be between 0 and 1"
+        );
         assert!(
             max_alpha > min_alpha && max_alpha < 1.0,
             "Max alpha must be between min_alpha and 1"
@@ -295,24 +298,25 @@ impl Schedule for AdaptiveSchedule {
 
     fn next_temp(&self, current_temp: f64, _iteration: usize) -> f64 {
         let current_ratio = self.acceptance_ratio();
-        
+
         // Adjust alpha based on how far we are from the target ratio
         let ratio_diff = current_ratio - self.target_acceptance_ratio;
-        
+
         // Map the ratio difference to a cooling rate
         // - If we're accepting too many moves (ratio > target), cool faster (lower alpha)
         // - If we're accepting too few moves (ratio < target), cool slower (higher alpha)
         let alpha = if ratio_diff > 0.0 {
             // Accepting too many moves, cool faster
-            self.max_alpha - (self.max_alpha - self.min_alpha) * (ratio_diff / self.target_acceptance_ratio)
+            self.max_alpha
+                - (self.max_alpha - self.min_alpha) * (ratio_diff / self.target_acceptance_ratio)
         } else {
             // Accepting too few moves, cool slower
             self.max_alpha
         };
-        
+
         // Ensure alpha stays within bounds
         let alpha = alpha.max(self.min_alpha).min(self.max_alpha);
-        
+
         current_temp * alpha
     }
 }

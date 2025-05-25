@@ -89,12 +89,11 @@ pub fn standard_deviation(values: &[f64]) -> f64 {
     if values.len() < 2 {
         return 0.0;
     }
-    
+
     let avg = average(values);
-    let variance = values.iter()
-        .map(|&x| (x - avg).powi(2))
-        .sum::<f64>() / (values.len() - 1) as f64;
-    
+    let variance =
+        values.iter().map(|&x| (x - avg).powi(2)).sum::<f64>() / (values.len() - 1) as f64;
+
     variance.sqrt()
 }
 

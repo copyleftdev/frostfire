@@ -40,7 +40,10 @@ impl<S: State> fmt::Debug for AnnealingResult<S> {
             .field("iterations", &self.iterations)
             .field("accepted_moves", &self.accepted_moves)
             .field("rejected_moves", &self.rejected_moves)
-            .field("acceptance_ratio", &(self.accepted_moves as f64 / self.iterations as f64))
+            .field(
+                "acceptance_ratio",
+                &(self.accepted_moves as f64 / self.iterations as f64),
+            )
             .field("initial_temp", &self.initial_temp)
             .field("final_temp", &self.final_temp)
             .finish()
@@ -284,33 +287,33 @@ where
         let initial_temp = self.schedule.initial_temp();
         let mut current_temp = initial_temp;
         let mut current_energy = self.energy.cost(&self.state);
-        
+
         // Save the initial state as the best state
         self.best_state = Some(self.state.clone());
         self.best_energy = current_energy;
-        
+
         // Reset statistics
         self.accepted_moves = 0;
         self.rejected_moves = 0;
-        
+
         // Main annealing loop
         for i in 0..self.max_iters {
             // Generate a neighboring state
             let new_state = self.state.neighbor(&mut self.rng);
             let new_energy = self.energy.cost(&new_state);
-            
+
             // Calculate the energy difference
             let delta = new_energy - current_energy;
-            
+
             // Decide whether to accept the new state
             if transition::accept(delta, current_temp, &mut self.rng) {
                 // Accept the new state
                 self.state = new_state;
                 current_energy = new_energy;
-                
+
                 // Update statistics
                 self.accepted_moves += 1;
-                
+
                 // Update the best state if we found a better one
                 if new_energy < self.best_energy {
                     self.best_state = Some(self.state.clone());
@@ -320,11 +323,11 @@ where
                 // Reject the new state
                 self.rejected_moves += 1;
             }
-            
+
             // Update the temperature according to the cooling schedule
             current_temp = self.schedule.next_temp(current_temp, i);
         }
-        
+
         // Create the result object
         AnnealingResult {
             best_state: self.best_state.as_ref().unwrap().clone(),

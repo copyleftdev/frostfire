@@ -5,11 +5,13 @@
 
 pub use crate::core::annealer::{Annealer, AnnealingResult};
 pub use crate::core::energy::Energy;
-pub use crate::core::schedule::{Schedule, GeometricSchedule, LogarithmicSchedule, AdaptiveSchedule};
+pub use crate::core::schedule::{
+    AdaptiveSchedule, GeometricSchedule, LogarithmicSchedule, Schedule,
+};
 pub use crate::core::state::State;
 pub use crate::core::transition::accept;
 pub use crate::rng::seeded_rng::seeded_rng;
 
 // Re-export commonly used external types
-pub use rand::Rng;
 pub use rand::rngs::StdRng;
+pub use rand::Rng;

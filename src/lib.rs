@@ -73,14 +73,16 @@
 //! ```
 
 pub mod core;
+pub mod prelude;
 pub mod rng;
 pub mod utils;
-pub mod prelude;
 
 // Re-export core components for convenient access
 pub use crate::core::annealer::Annealer;
 pub use crate::core::energy::Energy;
-pub use crate::core::schedule::{Schedule, GeometricSchedule, LogarithmicSchedule, AdaptiveSchedule};
+pub use crate::core::schedule::{
+    AdaptiveSchedule, GeometricSchedule, LogarithmicSchedule, Schedule,
+};
 pub use crate::core::state::State;
 pub use crate::core::transition;
 pub use crate::rng::seeded_rng::seeded_rng;
