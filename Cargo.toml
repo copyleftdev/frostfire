@@ -9,6 +9,16 @@ readme = "README.md"
 license = "MIT OR Apache-2.0"
 keywords = ["optimization", "simulated-annealing", "metaheuristic", "stochastic"]
 categories = ["algorithms", "science", "mathematics"]
+exclude = [
+    "target/",
+    "Cargo.lock",
+    ".github/",
+    "benches/",
+    "tests/",
+    "*.json",
+    "*.md",
+    "!README.md",
+]
 
 [dependencies]
 rand = "0.8.5"
